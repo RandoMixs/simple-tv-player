@@ -2,14 +2,17 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta http-equiv="Content-Security-Policy" content="default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval' 'unsafe-dynamic'; 
-        script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; 
-        connect-src * data: blob: 'unsafe-inline'; 
-        img-src * data: blob: 'unsafe-inline'; 
-        frame-src * data: blob: ; 
-        style-src * data: blob: 'unsafe-inline';
-        font-src * data: blob: 'unsafe-inline';
-        frame-ancestors * data: blob: 'unsafe-inline';"><!-- Por causa dos vários destinos de HLS diferente, tenho que permitir o acesso a todos os sites -->
+        <meta http-equiv="Content-Security-Policy" content="
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' blob:;
+            style-src 'self' 'unsafe-inline';
+            worker-src 'self' blob:;
+            img-src * data: blob:;
+            media-src * blob: data:;
+            connect-src *;
+            frame-src 'self';
+            font-src 'self' data:;
+        "><!-- Allow all origins because multiple HLS sources -->
         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <title>Player Live - TV</title>
         <link href="css/loading.css" rel="stylesheet">
@@ -17,7 +20,7 @@
         <link href="css/main.css" rel="stylesheet">
     </head>
     <body>
-        <div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;"><!-- Imagem carregada no codigo para carregamento instantâneo -->
+        <div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
             <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329 324">
                 <defs>
                 <linearGradient id="a" x1="164.326" x2="164.326" y1=".441" y2="324.009" gradientTransform="matrix(-.88509 .46542 -.52006 -.98898 410.372 246.92)" gradientUnits="userSpaceOnUse">
@@ -39,7 +42,7 @@
             <div class="err">
                 <img src="img/erro.png">
             </div>
-            <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="loader-video"></div>
             <video></video>
         </div>
         <div class="debug"></div>
